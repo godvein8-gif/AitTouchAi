@@ -68,7 +68,12 @@ async def conversation_relay(websocket: WebSocket):
 
     await websocket.accept()
     session_id = f"call-{id(websocket)}"
-    ai = get_ai_provider(settings.ai_provider)
+    ai = get_ai_provider(
+        settings.ai_provider,
+        api_key=settings.ai_api_key,
+        model=settings.ai_model,
+        base_url=settings.ai_base_url,
+    )
     try:
         while True:
             message = await websocket.receive_json()

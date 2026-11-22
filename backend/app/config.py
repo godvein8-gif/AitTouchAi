@@ -11,8 +11,11 @@ class Settings(BaseSettings):
 
     firebase_project_id: str = ""
 
+    # AI_PROVIDER: "mock" or "openrouter". The key lives only in backend environment variables.
     ai_provider: str = "mock"
     ai_api_key: str = ""
+    ai_base_url: str = "https://openrouter.ai/api/v1"
+    ai_model: str = "openrouter/auto"
 
     call_provider: str = "mock"
     twilio_auth_token: str = ""

@@ -44,9 +44,14 @@ def current_user(
 
 def get_ai(settings: Settings = Depends(get_settings)) -> AiProvider:
     try:
-        return get_ai_provider(settings.ai_provider)
-    except ValueError as exc:
-        raise HTTPException(status_code=503, detail=str(exc))
+        return get_ai_provider(
+            settings.ai_provider,
+            api_key=settings.ai_api_key,
+            model=settings.ai_model,
+            base_url=settings.ai_base_url,
+        )
+    except ValueError:
+        raise HTTPException(status_code=503, detail="AI provider is not configured")
 
 
 def get_store() -> ConversationStore:

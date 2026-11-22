@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: nexus-ai-backend
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: APP_ENV
+        value: production
+      - key: AI_PROVIDER
+        value: openrouter
+      - key: AI_MODEL
+        value: openrouter/auto
+      - key: AI_API_KEY
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: OWNER_NAME
+        value: the owner

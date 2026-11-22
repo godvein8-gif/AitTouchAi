@@ -46,7 +46,7 @@ private val languageOptions = listOf(
 )
 
 @Composable
-fun SettingsScreen(vm: SettingsViewModel, onBack: () -> Unit) {
+fun SettingsScreen(vm: SettingsViewModel, aiIsMock: Boolean, onBack: () -> Unit) {
     val language by vm.language.collectAsStateWithLifecycle()
 
     Column(
@@ -63,7 +63,7 @@ fun SettingsScreen(vm: SettingsViewModel, onBack: () -> Unit) {
         ) {
             Text("Preferred language", style = MaterialTheme.typography.titleMedium)
             Text(
-                "Saved on this device. It will guide replies once a real AI is connected (Phase 2).",
+                "Saved on this device. Replies already follow the language you write in.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -84,10 +84,10 @@ fun SettingsScreen(vm: SettingsViewModel, onBack: () -> Unit) {
                 modifier = Modifier.padding(top = 24.dp)
             )
             Text(
-                "Mock provider (DEMO). Real AI is connected through the secure backend in Phase 2. " +
-                    "No API key is ever stored in this app.",
+                if (aiIsMock) "Mock provider (DEMO). Scripted replies, not a real AI."
+                else "Real AI through the secure backend. No API key is stored in this app.",
                 style = MaterialTheme.typography.bodySmall,
-                color = NexusWarning
+                color = if (aiIsMock) NexusWarning else MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Text(

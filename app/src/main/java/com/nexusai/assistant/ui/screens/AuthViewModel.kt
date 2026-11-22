@@ -32,12 +32,13 @@ data class AuthUiState(
     val error: String? = null,
     val demoHint: String? = null,
     val cooldownSec: Int = 0,
-    val otpSent: Boolean = false
+    val otpSent: Boolean = false,
+    val isDemo: Boolean = true
 )
 
 class AuthViewModel(private val repo: AuthRepository) : ViewModel() {
 
-    private val _ui = MutableStateFlow(AuthUiState())
+    private val _ui = MutableStateFlow(AuthUiState(isDemo = repo.isDemo))
     val ui: StateFlow<AuthUiState> = _ui.asStateFlow()
 
     val sessionState: StateFlow<SessionState> = repo.session
@@ -75,7 +76,8 @@ class AuthViewModel(private val repo: AuthRepository) : ViewModel() {
         viewModelScope.launch {
             val message: String? = when (val r = repo.verifyOtp(code)) {
                 OtpVerifyResult.Success -> null
-                is OtpVerifyResult.Invalid -> "Wrong code. ${r.attemptsLeft} attempts left."
+                is OtpVerifyResult.Invalid ->
+                    r.attemptsLeft?.let { "Wrong code. $it attempts left." } ?: "Wrong code. Please try again."
                 OtpVerifyResult.Expired -> "Code expired. Request a new one."
                 OtpVerifyResult.LockedOut -> "Too many wrong attempts. Request a new code."
             }
@@ -100,7 +102,7 @@ class AuthViewModel(private val repo: AuthRepository) : ViewModel() {
 
     private fun resetForm() {
         cooldownJob?.cancel()
-        _ui.value = AuthUiState()
+        _ui.value = AuthUiState(isDemo = repo.isDemo)
     }
 
     private fun startCooldown() {

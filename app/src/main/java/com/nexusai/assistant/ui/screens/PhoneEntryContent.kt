@@ -130,8 +130,9 @@ fun PhoneEntryContent(
         }
 
         Text(
-            "DEMO MODE: no real SMS is sent. A demo code is shown on the next screen.",
-            color = NexusWarning,
+            if (state.isDemo) "DEMO MODE: no real SMS is sent. A demo code is shown on the next screen."
+            else "A 6-digit code will be sent to this number by SMS.",
+            color = if (state.isDemo) NexusWarning else MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(top = 16.dp)
         )

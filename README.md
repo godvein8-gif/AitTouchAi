@@ -1,4 +1,4 @@
-# NEXUS AI (Phase 1: DEMO foundation)
+# NEXUS AI
 
 Android app (Kotlin, Jetpack Compose) plus a FastAPI backend.
 
@@ -77,3 +77,11 @@ Room 2.6.1, minSdk 28, target/compile SDK 35. Python 3.12 for the backend.
 
 ## Next phases
 2: real OTP + real AI. 3: real voice. 4: real incoming calls. 5: final testing and release.
+
+## Phase 2 (real login and real AI)
+- The app uses Firebase phone login and the Render backend **only when `app/google-services.json`
+  is in the repo**. Without it, the app runs as the offline demo.
+- Backend settings (Render > Environment): `AI_API_KEY` (your OpenRouter key), `FIREBASE_PROJECT_ID`,
+  `APP_ENV=production`. Never put the key in GitHub.
+- Debug APKs are signed with a fixed debug-only key (`app/nexus-debug.jks`) so the SHA fingerprint
+  in Firebase stays the same after every build. It is not for release builds.

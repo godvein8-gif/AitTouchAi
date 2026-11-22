@@ -19,6 +19,6 @@ services:
       - key: AI_API_KEY
         sync: false
       - key: FIREBASE_PROJECT_ID
-        sync: false
+        value: nexusai-c36b0
       - key: OWNER_NAME
         value: the owner

@@ -5,6 +5,11 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+// Firebase is switched on only when google-services.json is present in app/.
+if (file("google-services.json").exists()) {
+    apply(plugin = "com.google.gms.google-services")
+}
+
 android {
     namespace = "com.nexusai.assistant"
     compileSdk = 35
@@ -16,12 +21,26 @@ android {
         versionCode = 1
         versionName = "0.1.0-phase1"
 
-        // Backend URL is a placeholder. Phase 1 uses mock providers and never calls it.
-        buildConfigField("String", "BACKEND_BASE_URL", "\"https://your-backend.example.com\"")
+        // Public address of the Render backend. Not a secret.
+        buildConfigField("String", "BACKEND_BASE_URL", "\"https://nexus-ai-backend-9hj5.onrender.com\"")
         buildConfigField("Boolean", "DEMO_MODE", "true")
     }
 
+    // A fixed DEBUG-only key, so every build has the same SHA fingerprint (needed for Firebase
+    // phone login). It is not used for release builds.
+    signingConfigs {
+        create("nexusDebug") {
+            storeFile = file("nexus-debug.jks")
+            storePassword = "android"
+            keyAlias = "nexusdebug"
+            keyPassword = "android"
+        }
+    }
+
     buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("nexusDebug")
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(
@@ -72,6 +91,10 @@ dependencies {
 
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

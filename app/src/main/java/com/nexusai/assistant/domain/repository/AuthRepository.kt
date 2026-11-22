@@ -15,15 +15,20 @@ sealed interface OtpRequestResult {
 
 sealed interface OtpVerifyResult {
     data object Success : OtpVerifyResult
-    data class Invalid(val attemptsLeft: Int) : OtpVerifyResult
+    /** [attemptsLeft] is null when the provider does not report it. */
+    data class Invalid(val attemptsLeft: Int?) : OtpVerifyResult
     data object Expired : OtpVerifyResult
     data object LockedOut : OtpVerifyResult
 }
 
 interface AuthRepository {
+    /** True for the offline demo login, false for real Firebase phone login. */
+    val isDemo: Boolean
     val session: Flow<Session?>
     suspend fun requestOtp(countryCode: String, number: String): OtpRequestResult
     suspend fun verifyOtp(code: String): OtpVerifyResult
+    /** Token the backend can verify, or null when not signed in. */
+    suspend fun idToken(): String?
     suspend fun logout()
     suspend fun deleteAccount()
 }

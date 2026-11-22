@@ -33,6 +33,11 @@ class DemoAuthRepository(
     private var lastSentAt = 0L
     private var attemptsLeft = MAX_ATTEMPTS
 
+    override val isDemo: Boolean = true
+
+    /** Only accepted by a backend running in demo mode. */
+    override suspend fun idToken(): String? = "demo-local-user"
+
     override val session: Flow<Session?> =
         storage.phone.map { phone -> phone?.let { Session(it, isDemo = true) } }
 

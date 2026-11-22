@@ -69,6 +69,7 @@ private fun maskPhone(phone: String): String =
 @Composable
 fun DashboardScreen(
     phone: String,
+    isDemo: Boolean,
     onOpen: (String) -> Unit,
     onLogout: () -> Unit
 ) {
@@ -109,9 +110,9 @@ fun DashboardScreen(
                     AiOrb(state = OrbState.Idle, orbSize = 140.dp)
                 }
                 Spacer(Modifier.height(8.dp))
-                StatusIndicator("Sign-in", ConnectionStatus.Demo)
+                StatusIndicator("Sign-in", if (isDemo) ConnectionStatus.Demo else ConnectionStatus.Connected)
                 Spacer(Modifier.height(4.dp))
-                StatusIndicator("AI provider", ConnectionStatus.Demo)
+                StatusIndicator("AI provider", if (isDemo) ConnectionStatus.Demo else ConnectionStatus.Connected)
                 Spacer(Modifier.height(4.dp))
                 StatusIndicator("Call receptionist", ConnectionStatus.Demo)
             }

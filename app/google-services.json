@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930427280951",
+    "project_id": "nexusai-c36b0",
+    "storage_bucket": "nexusai-c36b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930427280951:android:f423be16d105511c60e9b2",
+        "android_client_info": {
+          "package_name": "com.nexusai.assistant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAp4SpngZzDsflbZPAmDNaFsyEAmBuG8_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,11 +10,17 @@ import com.nexusai.assistant.ui.theme.NexusTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (application as NexusApplication).activityHolder.current = this
         enableEdgeToEdge()
         setContent {
             NexusTheme {
                 AppNavigation()
             }
         }
+    }
+
+    override fun onDestroy() {
+        (application as NexusApplication).activityHolder.clear(this)
+        super.onDestroy()
     }
 }

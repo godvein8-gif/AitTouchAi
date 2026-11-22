@@ -30,6 +30,7 @@ import com.nexusai.assistant.ui.util.maskedPhone
 @Composable
 fun ProfileScreen(
     phone: String,
+    isDemo: Boolean,
     onBack: () -> Unit,
     onLogout: () -> Unit,
     onDeleteAccount: () -> Unit
@@ -62,8 +63,11 @@ fun ProfileScreen(
             Column {
                 Text("Session", style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary)
-                Text("DEMO session on this device", style = MaterialTheme.typography.bodyLarge,
-                    color = NexusWarning)
+                Text(
+                    if (isDemo) "DEMO session on this device" else "Signed in with your verified mobile number",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = if (isDemo) NexusWarning else MaterialTheme.colorScheme.onSurface
+                )
             }
 
             OutlinedButton(onClick = onLogout, modifier = Modifier.fillMaxWidth()) { Text("Log out") }
@@ -84,7 +88,7 @@ fun ProfileScreen(
             title = { Text("Delete account?") },
             text = {
                 Text(
-                    "This signs you out and erases chats, call history and settings from this device. " +
+                    "This deletes your sign-in account and erases chats, call history and settings from this device. " +
                         "It cannot be undone."
                 )
             },

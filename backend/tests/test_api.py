@@ -37,3 +37,18 @@ def test_incoming_webhook_disabled_by_default():
 def test_simulated_call_is_demo():
     r = client.post("/calls/simulate", headers=AUTH)
     assert r.status_code == 200 and r.json()["demo"] is True
+
+
+def test_chat_accepts_client_history_and_validates_roles():
+    ok = client.post(
+        "/chat",
+        json={"message": "hello", "history": [{"role": "user", "content": "hi"}]},
+        headers=AUTH,
+    )
+    assert ok.status_code == 200
+    bad = client.post(
+        "/chat",
+        json={"message": "hello", "history": [{"role": "system", "content": "x"}]},
+        headers=AUTH,
+    )
+    assert bad.status_code == 422

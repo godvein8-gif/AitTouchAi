@@ -126,6 +126,7 @@ private fun MainNav(authVm: AuthViewModel, sessionState: SessionState) {
         composable(Routes.DASHBOARD) {
             DashboardScreen(
                 phone = phone,
+                isDemo = app.authRepository.isDemo,
                 onOpen = { target -> navController.navigate(target) },
                 onLogout = authVm::logout
             )
@@ -190,7 +191,11 @@ private fun MainNav(authVm: AuthViewModel, sessionState: SessionState) {
                     initializer { SettingsViewModel(app.settingsStore) }
                 }
             )
-            SettingsScreen(vm = vm, onBack = { navController.popBackStack() })
+            SettingsScreen(
+                vm = vm,
+                aiIsMock = app.aiProvider.isMock,
+                onBack = { navController.popBackStack() }
+            )
         }
         composable(Routes.PRIVACY) {
             PrivacyScreen(vm = dataVm, onBack = { navController.popBackStack() })
@@ -198,13 +203,18 @@ private fun MainNav(authVm: AuthViewModel, sessionState: SessionState) {
         composable(Routes.PROFILE) {
             ProfileScreen(
                 phone = phone,
+                isDemo = app.authRepository.isDemo,
                 onBack = { navController.popBackStack() },
                 onLogout = authVm::logout,
                 onDeleteAccount = { dataVm.wipeEverythingAsync { authVm.deleteAccount() } }
             )
         }
         composable(Routes.BACKEND_STATUS) {
-            BackendStatusScreen(onBack = { navController.popBackStack() })
+            BackendStatusScreen(
+                api = app.backendApi,
+                isDemo = app.authRepository.isDemo,
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }

@@ -1,0 +1,24 @@
+# Gradle / Android
+.gradle/
+build/
+local.properties
+*.apk
+*.aab
+*.keystore
+*.jks
+.idea/
+*.iml
+.DS_Store
+
+# Secrets - never commit
+.env
+*.env
+!.env.example
+google-services.json
+serviceAccount*.json
+
+# Python backend
+backend/.venv/
+backend/__pycache__/
+**/__pycache__/
+*.pyc
